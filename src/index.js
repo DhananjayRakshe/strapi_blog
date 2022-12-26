@@ -5,7 +5,7 @@ import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
-ReactDOM.render(
-  <App />,
+ReactDOM.render( <
+  App / > ,
   document.getElementById("root")
 );

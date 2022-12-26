@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container, ContentWithPaddingXl } from "components/misc/Layouts";
 import tw from "twin.macro";
@@ -45,41 +46,43 @@ const Description = tw.div``;
 
 const ButtonContainer = tw.div`flex justify-center`;
 const LoadMoreButton = tw(PrimaryButton)`mt-16 mx-auto`;
-
-export default ({
-  headingText = "Blog Posts",
-  posts = [
-    {
-      imageSrc:
-        "https://images.unsplash.com/photo-1499678329028-101435549a4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
-      category: "Travel Tips",
-      date: "April 21, 2020",
-      title: "Safely Travel in Foreign Countries",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      url: "https://timerse.com",
-      featured: true
-    },
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost()
-  ]
-}) => {
+let headingText = "Blog Posts";
+export default ({posts}
+//   {
+//   headingText = "Blog Posts",
+//   posts = [
+//     {
+//       imageSrc:
+//         "https://images.unsplash.com/photo-1499678329028-101435549a4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
+//       category: "Travel Tips",
+//       date: "April 21, 2020",
+//       title: "Safely Travel in Foreign Countries",
+//       description:
+//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+//       url: "https://timerse.com",
+//       featured: true
+//     },
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost(),
+//     getPlaceholderPost()
+//   ]
+// }
+) => {
   const [visible, setVisible] = useState(7);
   const onLoadMoreClick = () => {
     setVisible(v => v + 6);
@@ -93,21 +96,23 @@ export default ({
             <Heading>{headingText}</Heading>
           </HeadingRow>
           <Posts>
-            {posts.slice(0, visible).map((post, index) => (
-              <PostContainer key={index} featured={post.featured}>
-                <Post className="group" as="a" href={post.url}>
-                  <Image imageSrc={post.imageSrc} />
-                  <Info>
-                    <Category>{post.category}</Category>
-                    <CreationDate>{post.date}</CreationDate>
-                    <Title>{post.title}</Title>
-                    {post.featured && post.description && <Description>{post.description}</Description>}
-                  </Info>
-                </Post>
+            {posts.data.slice(0, visible).map((post, index) => (
+              <PostContainer key={index} featured={post.attributes.featured}>
+                <Link to={`/blog/${post.id}`}>
+                  <Post className="group" as="a" href={post.url}>
+                    <Image imageSrc={`http://localhost:1337${post.attributes.coverImage.data.attributes.url}`} />
+                    <Info>
+                      <Category>{post.category}</Category>
+                      <CreationDate>{post.attributes.publishedDate}</CreationDate>
+                      <Title>{post.attributes.blogTitle}</Title>
+                      {post.featured && post.description && <Description>{post.description}</Description>}
+                    </Info>
+                  </Post>
+                </Link>
               </PostContainer>
             ))}
           </Posts>
-          {visible < posts.length && (
+          {visible < posts.data.length && (
             <ButtonContainer>
               <LoadMoreButton onClick={onLoadMoreClick}>Load More</LoadMoreButton>
             </ButtonContainer>
