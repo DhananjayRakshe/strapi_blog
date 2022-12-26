@@ -61,7 +61,7 @@ export default ({ posts }) => {
 							<b>Author: </b>
 							{post[0].attributes.author}
 						</p>
-            <p><b>Blog Content:</b></p>
+            <p><b>Blog  Content:</b></p>
 						<ReactMarkdown>{post[0].attributes.blogContent}</ReactMarkdown>
 					</Text>
 				</ContentWithPaddingXl>
